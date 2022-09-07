@@ -44,7 +44,7 @@ flags.DEFINE_integer('save_checkpoint_secs', 1800,
                      'Checkpoint save period in seconds.')
 flags.DEFINE_integer('total_environment_frames', int(1e9),
                      'Total environment frames to train for.')
-flags.DEFINE_integer('batch_size', 64, 'Batch size for training.')
+flags.DEFINE_integer('batch_size', 5, 'Batch size for training.')
 flags.DEFINE_float('replay_ratio', 1.5,
                    'Average number of times each observation is replayed and '
                    'used for training. '
