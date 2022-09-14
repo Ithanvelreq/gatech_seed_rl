@@ -1,0 +1,6 @@
+Launch training on the same machine but 2 diffrent containes
+Scale out and launch training on several machines
+
+Low priority:
+    We have to see how can we save the training results from our model.
+    Kubernetes could be a good way of adding more abstraction.
