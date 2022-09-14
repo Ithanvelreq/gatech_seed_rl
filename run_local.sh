@@ -45,5 +45,7 @@ docker_version=$(docker version --format '{{.Server.Version}}')
 if [[ "19.03" > $docker_version ]]; then
   docker run --entrypoint ./docker/run.sh -ti -it -p 6006-6015:6006-6015 --name seed --rm seed_rl:$ENVIRONMENT $ENVIRONMENT $AGENT $NUM_ACTORS $ENV_BATCH_SIZE $@
 else
-  docker run --gpus all --entrypoint ./docker/run.sh -ti -it -p 6006-6015:6006-6015 -e HOST_PERMS="$(id -u):$(id -g)" --name seed --rm seed_rl:$ENVIRONMENT $ENVIRONMENT $AGENT $NUM_ACTORS $ENV_BATCH_SIZE $@
+  # We will always execute this with our docker version
+  # docker run --gpus all --entrypoint ./docker/run.sh -ti -it -p 6006-6015:6006-6015 -e HOST_PERMS="$(id -u):$(id -g)" --name seed --rm seed_rl:$ENVIRONMENT $ENVIRONMENT $AGENT $NUM_ACTORS $ENV_BATCH_SIZE $@
+  docker run --entrypoint ./docker/run.sh -ti -it -p 6006-6015:6006-6015 -e HOST_PERMS="$(id -u):$(id -g)" --name seed --rm seed_rl:$ENVIRONMENT $ENVIRONMENT $AGENT $NUM_ACTORS $ENV_BATCH_SIZE $@
 fi
