@@ -16,7 +16,7 @@ r"""SEED actor."""
 
 import os
 import timeit
-
+import time
 from absl import flags
 from absl import logging
 import numpy as np
@@ -37,7 +37,6 @@ flags.DEFINE_integer('num_actors_with_summaries', 4,
 flags.DEFINE_bool('render', False,
                   'Whether the first actor should render the environment.')
 
-
 def are_summaries_enabled():
   return FLAGS.task < FLAGS.num_actors_with_summaries
 
@@ -56,6 +55,10 @@ def actor_loop(create_env_fn, config=None, log_period=1):
   env_batch_size = FLAGS.env_batch_size
   logging.info('Starting actor loop. Task: %r. Environment batch size: %r',
                FLAGS.task, env_batch_size)
+  time.sleep(4.1)
+  logging.info(f"Trying to connect to {FLAGS.server_address}")
+  client = grpc.Client(FLAGS.server_address)
+  logging.info(f"No error when connecting to {FLAGS.server_address}")
   is_rendering_enabled = FLAGS.render and FLAGS.task == 0
   if are_summaries_enabled():
     summary_writer = tf.summary.create_file_writer(
