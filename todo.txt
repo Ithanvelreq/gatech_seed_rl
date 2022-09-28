@@ -5,4 +5,5 @@ Low priority:
     We have to see how can we save the training results from our model.
     Kubernetes could be a good way of adding more abstraction.
 
+
 We see that abstraction comes with the cost of documentation. I think that this tradeoff is worth it.

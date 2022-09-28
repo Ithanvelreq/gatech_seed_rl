@@ -5,18 +5,16 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile.atari
     ports:
-      - 8086:8686
       - 6006:6006
     networks:
       default:
         ipv4_address: 172.18.0.3
-    entrypoint: ["./docker/my_run.sh", "atari", "r2d2", "4", "4", "1", "localhost:8686"]
+    entrypoint: ["./docker/my_run.sh", "atari", "r2d2", "4", "4", "1", "172.18.0.3:8686"]
   actor:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.atari
     ports:
-      - 8087:8086
       - 6007:6006
     networks:
       default:

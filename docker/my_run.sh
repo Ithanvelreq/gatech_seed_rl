@@ -20,6 +20,7 @@ die () {
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
+cat $DIR
 
 ENVIRONMENT=$1
 AGENT=$2
@@ -40,9 +41,9 @@ NUM_ENVS=$(($NUM_ACTORS*$ENV_BATCH_SIZE))
 mkdir -p /tmp/seed_rl
 rm /tmp/agent -Rf
 if [[ "1" = ${LEARNER} ]]; then
-    COMMAND=''"${LEARNER_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --env_batch_size='"${ENV_BATCH_SIZE}"''
+    COMMAND=''"${LEARNER_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
 else
-    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task=0 --env_batch_size='"${ENV_BATCH_SIZE} --server_address='"${SERVER_ADDRESS}"'"''
+    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task=0 --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
 fi
 echo $COMMAND
 exec $COMMAND
