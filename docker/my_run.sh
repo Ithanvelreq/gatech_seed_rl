@@ -28,8 +28,8 @@ NUM_ACTORS=$3
 ENV_BATCH_SIZE=$4
 LEARNER=$5
 SERVER_ADDRESS=$6
-shift 6
-
+TASK=$7
+shift 7
 export PYTHONPATH=$PYTHONPATH:/
 
 ACTOR_BINARY="python3 ../${ENVIRONMENT}/${AGENT}_main.py --run_mode=actor";
@@ -43,7 +43,7 @@ rm /tmp/agent -Rf
 if [[ "1" = ${LEARNER} ]]; then
     COMMAND=''"${LEARNER_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
 else
-    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task=0 --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
+    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task='"${TASK}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
 fi
 echo $COMMAND
 exec $COMMAND
