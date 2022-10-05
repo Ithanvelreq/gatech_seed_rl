@@ -1,3 +1,4 @@
+We have now to be able to launch training on two pcs in more production-ish evironement
 Launch training on the same machine but 2 diffrent containes
 Scale out and launch training on several machines
 
