@@ -861,7 +861,7 @@ def learner_loop(create_env_fn, create_agent_fn, create_optimizer_fn):
       if current_time - last_ckpt_time >= FLAGS.save_checkpoint_secs:
         manager.save()
         last_ckpt_time = current_time
-
+      r = 0
       def log(num_env_frames):
         """Logs environment summaries."""
         summary_writer.set_as_default()
@@ -874,9 +874,8 @@ def learner_loop(create_env_fn, create_agent_fn, create_optimizer_fn):
               r, n, env_id,
               'training' if is_training else 'eval',
               iterations.numpy())
-          if not is_training:
-            tf.summary.scalar('eval/episode_return', r)
-            tf.summary.scalar('eval/episode_frames', n)
+          tf.summary.scalar('eval/episode_return', r)
+          tf.summary.scalar('eval/episode_frames', n)
       log_future.result()  # Raise exception if any occurred in logging.
       log_future = executor.submit(log, num_env_frames)
 

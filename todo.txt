@@ -1,10 +1,6 @@
-We have now to be able to launch training on two pcs in more production-ish evironement
-Launch training on the same machine but 2 diffrent containes
-Scale out and launch training on several machines
-
-Low priority:
-    We have to see how can we save the training results from our model.
-    Kubernetes could be a good way of adding more abstraction.
+Prevent rebuild images evey time we launch training
+.nfs files may prevent from ereasing previous logs. A workaraound has been found but I don't know how to get rid of these.
 
 
-We see that abstraction comes with the cost of documentation. I think that this tradeoff is worth it.
+This should be run once in a while to get rid of intermediary images. Can save several GB of space
+parallel-ssh -h ~/.ssh/gtlpcs -t 5 "docker image prune -f"

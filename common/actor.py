@@ -105,6 +105,8 @@ def actor_loop(create_env_fn, config=None, log_period=1):
         last_global_step = 0
         while True:
           tf.summary.experimental.set_step(actor_step)
+          if observation.dtype == 'float64':
+            observation = observation.astype('float32', copy=False)
           env_output = utils.EnvOutput(reward, done, observation,
                                        abandoned, episode_step)
           with elapsed_inference_s_timer:

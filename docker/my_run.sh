@@ -17,7 +17,6 @@ die () {
     echo >&2 "$@"
     exit 1
 }
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 cat $DIR
@@ -26,10 +25,11 @@ ENVIRONMENT=$1
 AGENT=$2
 NUM_ACTORS=$3
 ENV_BATCH_SIZE=$4
-LEARNER=$5
-SERVER_ADDRESS=$6
-TASK=$7
-shift 7
+SERVER_ADDRESS=$5
+TASK=$6
+MODE=$7
+LOGDIR=$8
+shift 8
 export PYTHONPATH=$PYTHONPATH:/
 
 ACTOR_BINARY="python3 ../${ENVIRONMENT}/${AGENT}_main.py --run_mode=actor";
@@ -39,11 +39,17 @@ NUM_ENVS=$(($NUM_ACTORS*$ENV_BATCH_SIZE))
 
 
 mkdir -p /tmp/seed_rl
-rm /tmp/agent -Rf
-if [[ "1" = ${LEARNER} ]]; then
-    COMMAND=''"${LEARNER_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
+if [[ "learner" = ${MODE} ]]; then
+    # These commands may be usefull if we run into problems with .nfs files
+    # rm $LOGDIR/a* -Rf
+    # rm $LOGDIR/e* -Rf
+    # rm $LOGDIR/c* -Rf
+    rm $LOGDIR -Rf
+    mkdir $LOGDIR
+    screen -d -m tensorboard --logdir ${LOGDIR} --bind_all
+    COMMAND=''"${LEARNER_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"' --logdir='"${LOGDIR}"''
 else
-    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task='"${TASK}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"''
+    COMMAND=''"${ACTOR_BINARY}"' --logtostderr --pdb_post_mortem '"$@"' --num_envs='"${NUM_ENVS}"' --task='"${TASK}"' --env_batch_size='"${ENV_BATCH_SIZE}"' --server_address='"${SERVER_ADDRESS}"' --logdir='"${LOGDIR}"''
 fi
-echo $COMMAND
 exec $COMMAND
+
