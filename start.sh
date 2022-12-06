@@ -46,7 +46,7 @@ SEED uses tmux for easy navigation between different tasks involved
 in the training process. To switch to a specific task, press CTRL+b, [tab id].
 You can stop training at any time by executing 'stop_seed'
 EOF
-tmux send-keys "alias stop_seed='./scripts/stop_local.sh seed_rl'" ENTER
+tmux send-keys "alias stop_seed='./scripts/stop.sh seed_rl'" ENTER
 tmux send-keys clear
 tmux send-keys KPEnter
 tmux send-keys "cat /tmp/seed_rl/instructions"
@@ -56,7 +56,7 @@ tmux send-keys KPEnter
 tmux send-keys "stop_seed"
 tmux new-window -d -n learner
 
-COMMAND='scripts/run_actors.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' learner learner '"$HOST_LOGDIR"''
+COMMAND='scripts/run.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' learner learner '"$HOST_LOGDIR"''
 tmux send-keys -t learner "$COMMAND" ENTER
 
 id=0
@@ -69,14 +69,14 @@ do
     continue
   fi
   tmux new-window -d -n "actor_${id}"
-  COMMAND='ssh -X -t dream_user@'"$pc_name"' /home/GTL/ivelarde/repos/seed_rl/scripts/run_actors.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' '"${id}"' actor '"$HOST_LOGDIR"''
+  COMMAND='ssh -X -t dream_user@'"$pc_name"' /home/GTL/ivelarde/repos/seed_rl/scripts/run.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' '"${id}"' actor '"$HOST_LOGDIR"''
   tmux send-keys -t "actor_${id}" "$COMMAND" ENTER
   let id=$id+1
 done < <(tail -n +2 ./scripts/actor_pcs.csv)
 
 if [[ ${id} != $NUM_ACTORS ]];then
   echo "not enough machines available, found $id machines but we wanted $NUM_ACTORS actors"
-  ./scripts/stop_local.sh seed_rl
+  ./scripts/stop.sh seed_rl
 else
   tmux attach -t seed_rl
 fi

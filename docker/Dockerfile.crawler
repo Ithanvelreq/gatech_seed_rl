@@ -17,18 +17,6 @@ RUN apt-key del 7fa2af80
 RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 RUN apt-get update && apt-get install -y screen tmux ffmpeg libsm6 libxext6 libxrender-dev wget xauth
-# RUN apt-get update && apt-get install -y libgl1-mesa-swx11
-# RUN apt-get update \
-#   && apt-get install -y -qq --no-install-recommends \
-#     libglvnd0 \
-#     libgl1 \
-#     libglx0 \
-#     libegl1 \
-#     libxext6 \
-#     libx11-6 \
-#   && rm -rf /var/lib/apt/lists/*# Env vars for the nvidia-container-runtime.
-# ENV NVIDIA_VISIBLE_DEVICES all
-ENV LIBGL_ALWAYS_SOFTWARE 1
 # Copy SEED codebase and SEED GRPC binaries.
 ADD . /seed_rl/
 WORKDIR /seed_rl
