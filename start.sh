@@ -69,7 +69,7 @@ do
     continue
   fi
   tmux new-window -d -n "actor_${id}"
-  COMMAND='ssh -X -t dream_user@'"$pc_name"' /home/GTL/ivelarde/repos/seed_rl/scripts/run.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' '"${id}"' actor '"$HOST_LOGDIR"''
+  COMMAND='ssh -t dream_user@'"$pc_name"' /cs-share/pradalier/dream_user/seed_rl/seed_rl/scripts/run.sh '"$ENVIRONMENT"' '"$AGENT"' '"$NUM_ACTORS"' '"$ENV_BATCH_SIZE"' '"$HOST_ADDRESS_PORT"' '"${id}"' actor '"$HOST_LOGDIR"''
   tmux send-keys -t "actor_${id}" "$COMMAND" ENTER
   let id=$id+1
 done < <(tail -n +2 ./scripts/actor_pcs.csv)

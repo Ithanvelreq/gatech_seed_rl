@@ -4,3 +4,5 @@ Prevent rebuild images evey time we launch training
 
 This should be run once in a while to get rid of intermediary images. Can save several GB of space
 parallel-ssh -h ~/.ssh/gtlpcs -t 5 "docker image prune -f"
+
+Big experiment launched with 26 actors

@@ -31,7 +31,7 @@ import tensorflow as tf
 FLAGS = flags.FLAGS
 
 flags.DEFINE_integer('task', 0, 'Task id.')
-flags.DEFINE_integer('num_actors_with_summaries', 4,
+flags.DEFINE_integer('num_actors_with_summaries', 100,
                      'Number of actors that will log debug/profiling TF '
                      'summaries.')
 flags.DEFINE_bool('render', False,

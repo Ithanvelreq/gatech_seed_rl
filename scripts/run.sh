@@ -12,7 +12,7 @@ export ID=$6
 export MODE=$7
 export HOST_LOGDIR=$8
 shift 8
-cd /home/GTL/ivelarde/repos/seed_rl
+cd /cs-share/pradalier/dream_user/seed_rl/seed_rl
 export CONFIG=$ENVIRONMENT
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
