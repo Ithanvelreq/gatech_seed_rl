@@ -1,5 +1,5 @@
 # Georgia Tech's SEED RL
-This repository contains a customized version of Google Brain's SEED-RL. The framework has been adapted to be able to run in the facility's infrastructure.
+This repository contains a customized version of Google Brain's SEED-RL. The framework has been adapted to be able to run in the facility's infrastructure. Please check-out the presentation on the presentation folder to have a better insight about the reults and metrics of the project.
 
 Two agents are implemented:
 
